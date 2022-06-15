@@ -1,0 +1,91 @@
+    const addToFollowing = () => {
+        console.log("OK")
+
+        getFollowing();
+
+        for (let user in following2) {
+            // console.log(following[user])
+            userRef
+                .where("id", "not in", following2)
+                .onSnapshot(
+                    querySnapshot => {
+                        const newFollowing = following2
+                        querySnapshot.forEach(doc => {
+                            const user = doc.data()
+                            user.id = doc.id
+                            newFollowing.push(doc.id)
+                        });
+                    },
+                    error => {
+                        console.log(error)
+                    }
+                )
+                .update({
+                    following: newFollowing
+                })  
+                setisFollow(true); 
+        }
+    []}
+
+
+
+    // const followUser = async () => {
+    //     getFollowing().then(
+    //         console.log(following2)
+    //     )
+
+
+
+    // let userName = app.auth().currentUser.displayName; //retrouver notre nom de user 
+    // const usersRef = app.database().ref('Users');
+    // usersRef
+    //     .doc(ownID)
+    //     .then((response) => {
+    //         const followedPersons = user.following
+    //         followedPersons.push(userID)
+    //         setFollowList(followedPersons)
+    //         console.log(followedPersons)
+    //     }
+
+    //     )
+
+    // .onSnapshot(
+    // querySnapshot => {
+    //     querySnapshot.forEach(doc => {
+    //         const user = doc.data()
+    //         console.log(user)
+
+    //         const followedPersons = user.following
+    //         followedPersons.push(userID)
+    //         setFollowList(followedPersons)
+    //     })
+    // })
+    // const userRef = firebase.database().ref('users').child(user.id);
+    // console.log(userRef)
+
+    // let user_ref = firebase.firestore().collection("users").where("authorID", "==", ownID).get();
+    // user_ref.forEach(doc => {
+    //     const docRef = firebase.collection("users").doc(doc.id);
+    //     docRef.update({ following: followList });
+    // });
+
+
+
+    // usersRef.on('value', (snapshot) => { //get all users
+    //   if (!updated) {
+    //     updated = true //to avoid infity loop because of "value"
+    //     const users = snapshot.val()
+    //     for (let userID in users) {
+    //       if (users[userID].id === ownID) {
+    //         const followedPersons = users[userID].following
+    //         followedPersons.push(id)
+    //         const userRef = app.database().ref('users').child(userID);
+    //         userRef.update({
+    //           following: followedPersons
+    //         })
+    //         setisFollow(true);
+    //       }
+    //     }
+    //   }
+    // })
+
